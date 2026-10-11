@@ -86,18 +86,20 @@ module lab_top
         P     = 8'b1100_1110,
         G     = 8'b1011_1100,
         A     = 8'b1110_1110,
+        V     = 8'b0110_0110,
+        S     = 8'b1011_0110,
         space = 8'b0000_0000
     }
     seven_seg_encoding_e;
 
-    assign abcdefgh = key [0] ? P : F;
-    assign digit    = w_digit' (key [1] ? 2'b10 : 2'b01);
+    // assign abcdefgh = key [0] ? P : F;
+    // assign digit    = w_digit' (key [1] ? 2'b10 : 2'b01);
 
     // Exercise 1: Display the first letters
     // of your first name and last name instead.
 
-    // assign abcdefgh = ...
-    // assign digit    = ...
+    assign abcdefgh = key[1] ? V: space;
+    assign digit    = w_digit' (2'b00);
 
     // Exercise 2: Display letters of a 4-character word
     // using this code to display letter of FPGA as an example

@@ -124,7 +124,7 @@ module lab_top
     // without using "?" operation, "if", "case" or a bit selection.
     // Use only operations "&", "|", "~" and parenthesis, "(" and ")".
 
-    wire mux4 = 1'b0;
+    wire mux4 = (sel & a) | (!sel & b);
 
     //------------------------------------------------------------------------
 
@@ -133,16 +133,16 @@ module lab_top
     wire [0:7] table5 =
     {
         1'b0, // sel = 0, a = 0, b = 0
-        1'b1, // sel = 0, a = 0, b = 1
-        1'b0, // sel = 0, a = 1, b = 0
-        1'b1, // sel = 0, a = 1, b = 1
+        1'b0, // sel = 0, a = 0, b = 1
+        1'b1, // sel = 0, a = 1, b = 0
+        1'b0, // sel = 0, a = 1, b = 1
         1'b0, // sel = 1, a = 0, b = 0
-        1'b0, // sel = 1, a = 0, b = 1
+        1'b1, // sel = 1, a = 0, b = 1
         1'b1, // sel = 1, a = 1, b = 0
         1'b1  // sel = 1, a = 1, b = 1
     };
 
-    wire mux5 = table5 [{ sel, a, b }];
+    wire mux5 = table5 [{ a, b, sel }];
 
     // Exercise 2: Change the table to get the correct result by doing
     // wire mux5_2 = table5_2 [{ a, b, sel }];
@@ -265,12 +265,12 @@ module lab_top
     '{
         '{
             '{ 1'b0, 1'b0 },  // a = 0, b = 0, sel = 0/1
-            '{ 1'b1, 1'b0 }   // a = 0, b = 1, sel = 0/1
+            '{ 1'b1, 1'b1 }   // a = 0, b = 1, sel = 0/1
         },
 
         '{
             '{ 1'b0, 1'b1 },  // a = 1, b = 0, sel = 0/1
-            '{ 1'b1, 1'b1 }   // a = 1, b = 1, sel = 0/1
+            '{ 1'b0, 1'b1 }   // a = 1, b = 1, sel = 0/1
         }
     };
 
@@ -294,11 +294,11 @@ module lab_top
             mux7  , mux6  , mux5 , mux4 ,
             mux3  , mux2  , mux1 , mux0 };
 
-    assign led = w_led' (all_muxes);
+    // assign led = w_led' (all_muxes);
 
     // Use concatenation operation for the boards with 4 LEDs:
 
-    // assign led = w_led' ({ mux3  , mux2  , mux1 , mux0 });
+    assign led = w_led' ({ mux11  , 1'b0  , 1'b0   , mux0 });
     // assign led = w_led' ({ mux6  , mux5  , mux4 , mux0 });
     // assign led = w_led' ({ mux9  , mux8  , mux7 , mux0 });
     // assign led = w_led' ({ mux11 , mux10 , mux4 , mux0 });
